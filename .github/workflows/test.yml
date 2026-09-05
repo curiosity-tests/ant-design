@@ -113,6 +113,11 @@ jobs:
   test-react-legacy:
     name: test-react-legacy
     strategy:
+      # racecar measurement integrity (not a build change): a flaky leg must not
+      # cancel its siblings. The instrumented arm carries strictly more failure
+      # surface than baseline, so fail-fast drops instrumented legs more often
+      # and biases any arm-vs-arm comparison in baseline's favour.
+      fail-fast: false
       matrix:
         react: ['18']
         shard: [1/2, 2/2]
@@ -164,6 +169,11 @@ jobs:
   test-react-latest:
     name: test-react-latest
     strategy:
+      # racecar measurement integrity (not a build change): a flaky leg must not
+      # cancel its siblings. The instrumented arm carries strictly more failure
+      # surface than baseline, so fail-fast drops instrumented legs more often
+      # and biases any arm-vs-arm comparison in baseline's favour.
+      fail-fast: false
       matrix:
         module: [dom]
         shard: [1/2, 2/2]
@@ -203,6 +213,11 @@ jobs:
   test-react-latest-dist:
     name: test-react-latest-dist
     strategy:
+      # racecar measurement integrity (not a build change): a flaky leg must not
+      # cancel its siblings. The instrumented arm carries strictly more failure
+      # surface than baseline, so fail-fast drops instrumented legs more often
+      # and biases any arm-vs-arm comparison in baseline's favour.
+      fail-fast: false
       matrix:
         module: [dist, dist-min]
         shard: [1/2, 2/2]
@@ -360,6 +375,11 @@ jobs:
     name: test lib/es module
     runs-on: ubuntu-latest
     strategy:
+      # racecar measurement integrity (not a build change): a flaky leg must not
+      # cancel its siblings. The instrumented arm carries strictly more failure
+      # surface than baseline, so fail-fast drops instrumented legs more often
+      # and biases any arm-vs-arm comparison in baseline's favour.
+      fail-fast: false
       matrix:
         module: [lib, es]
         shard: [1/2, 2/2]
