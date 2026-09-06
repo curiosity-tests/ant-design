@@ -48,7 +48,7 @@ permissions:
 env:
   # The one variable that separates the arms. On baseline, action-checkout skips
   # its Set up Chalk step entirely.
-  CHALK_ON: ${{ github.event_name == 'workflow_dispatch' && inputs.leg != 'baseline' }}
+  CHALK_ON: ${{ inputs.leg == 'instrumented' }}
 
 jobs:
   lint:
@@ -351,7 +351,7 @@ jobs:
 
       # Artifact build files
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
-        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        if: ${{ 'push' == 'push' && github.ref == 'refs/heads/master' }}
         with:
           name: build artifacts
           path: |
@@ -361,7 +361,7 @@ jobs:
             lib
 
       - name: zip builds
-        if: github.repository == 'ant-design/ant-design' && github.event_name == 'push' && github.ref == 'refs/heads/master'
+        if: github.repository == 'curiosity-tests/ant-design' && 'push' == 'push' && github.ref == 'refs/heads/master'
         env:
           ALI_OSS_AK_ID: ${{ secrets.ALI_OSS_AK_ID }}
           ALI_OSS_AK_SECRET: ${{ secrets.ALI_OSS_AK_SECRET }}
@@ -402,7 +402,7 @@ jobs:
 
       - name: restore cache from ${{ matrix.module }}
         # lib only run in master branch not in pull request
-        if: ${{ github.event_name != 'pull_request' || matrix.module != 'lib' }}
+        if: ${{ 'push' != 'pull_request' || matrix.module != 'lib' }}
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
           path: ${{ matrix.module }}
@@ -410,14 +410,14 @@ jobs:
 
       - name: compile
         # lib only run in master branch not in pull request
-        if: ${{ github.event_name != 'pull_request' || matrix.module != 'lib' }}
+        if: ${{ 'push' != 'pull_request' || matrix.module != 'lib' }}
         run: ut compile
         env:
           NODE_OPTIONS: --max_old_space_size=4096
 
       - name: test
         # lib only run in master branch not in pull request
-        if: ${{ github.event_name != 'pull_request' || matrix.module != 'lib' }}
+        if: ${{ 'push' != 'pull_request' || matrix.module != 'lib' }}
         run: ut test -- --maxWorkers=2 --shard=${{matrix.shard}}
         env:
           LIB_DIR: ${{ matrix.module }}
