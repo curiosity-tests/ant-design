@@ -1,9 +1,7 @@
 name: Upgrade Dependencies
 
 on:
-  schedule:
-    - cron: "0 18 * * *" # every day at 18:00 UTC
-    # - timezone: Asia/Shanghai # not supported yet https://github.com/orgs/community/discussions/13454
+  workflow_dispatch:
 
 jobs:
   upgrade-deps:

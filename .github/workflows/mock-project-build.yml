@@ -3,8 +3,6 @@ name: Mock Project Build
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '*/30 * * * *'
 
 # Cancel prev CI if new commit come
 concurrency:

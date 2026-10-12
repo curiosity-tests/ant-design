@@ -1,8 +1,7 @@
 name: Issue Check Inactive
 
 on:
-  schedule:
-    - cron: "0 0 */15 * *"
+  workflow_dispatch:
 
 permissions:
   contents: read
